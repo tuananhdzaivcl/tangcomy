@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════╗
+  ║  QUÀ TẶNG 20/10 — CÔ MY (giáo viên Toán)                     ║
+  ║  Ý tưởng: Đóa hoa nở theo góc vàng 137,5° (tỉ lệ vàng)       ║
+  ║  Mỗi hạt là một học trò, Cô là người xếp từng hạt vào đúng   ║
+  ║  chỗ để tất cả cùng tỏa sáng.                                ║
+  ╠══════════════════════════════════════════════════════════════╣
+  ║  HƯỚNG DẪN THÊM NHẠC                                         ║
+  ║  1. Chuẩn bị 1 file nhạc .mp3 (nên nhẹ, dưới 5MB).           ║
+  ║  2. Đổi tên thành đúng:  music.mp3                           ║
+  ║  3. Đặt CÙNG THƯ MỤC với file HTML này, rồi deploy cả hai.   ║
+  ║  4. Muốn dùng tên khác: sửa src="music.mp3" ở thẻ <audio>.   ║
+  ║  Lưu ý: trình duyệt chỉ cho phát nhạc sau khi người dùng     ║
+  ║  chạm vào màn hình, nên nhạc bật ở lần chạm đầu tiên.        ║
+  ╚══════════════════════════════════════════════════════════════╝
+-->
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tặng Cô My – 20/10</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500;700&family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ===== Bảng màu: nâu đất – vàng đồng – giấy kem ===== */
+:root{--brown:#4e301b;--earth:#8a5a33;--bronze:#b0793a;--gold:#c8963e;--cream:#f7efdc;--paper:#fcf6e7}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;color:var(--brown);font-family:'Lora',Georgia,serif;user-select:none;-webkit-user-select:none}
+/* Nền giấy kẻ ô li như vở Toán */
+body{background:
+  linear-gradient(rgba(176,121,58,.11) 1px,transparent 1px) 0 0/30px 30px,
+  linear-gradient(90deg,rgba(176,121,58,.11) 1px,transparent 1px) 0 0/30px 30px,
+  radial-gradient(circle at 50% 40%,#fff9e8 0,#f2e3c2 60%,#e0c58f 100%)}
+
+/* ===== Ký hiệu toán học bay lên ===== */
+.fw,.tw{position:fixed;font-family:'Playfair Display',serif;font-style:italic;color:var(--bronze);pointer-events:none;white-space:nowrap;z-index:3}
+.fw{bottom:-50px;opacity:0;animation:rise var(--d) linear forwards}
+@keyframes rise{0%{transform:translateY(0) rotate(var(--r));opacity:0}15%{opacity:.5}100%{transform:translateY(-115vh) rotate(calc(var(--r)*-1));opacity:0}}
+.tw{font-weight:600;color:var(--earth);text-shadow:0 1px 8px rgba(255,248,225,.95);animation:pop 2.6s ease-out forwards;z-index:30}
+@keyframes pop{0%{transform:translate(-50%,0) scale(.5);opacity:0}15%{opacity:1}100%{transform:translate(-50%,-150px) scale(1.15);opacity:0}}
+
+.screen{position:fixed;inset:0;z-index:2;transition:opacity 1.1s ease,visibility 1.1s}
+.hide{opacity:0;visibility:hidden;pointer-events:none}
+
+/* ===== MÀN HÌNH 1: đóa hoa tỉ lệ vàng ===== */
+#s1{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:56px 20px 60px;text-align:center;cursor:pointer}
+#s1 h1{font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(32px,9vw,52px);color:var(--earth);line-height:1.15}
+#s1 .lead{margin-top:10px;max-width:420px;font-style:italic;font-size:clamp(13.5px,3.7vw,16px);line-height:1.6;opacity:.85}
+#c1{width:min(80vw,44vh,400px);aspect-ratio:1;margin:18px 0 8px;filter:drop-shadow(0 8px 12px rgba(78,48,27,.25))}
+.formula{font-family:'Playfair Display',serif;font-style:italic;font-size:15px;color:var(--bronze);min-height:22px}
+.hint{margin-top:14px;font-family:'Playfair Display',serif;font-style:italic;font-size:14px;color:var(--earth);animation:blink 2s ease-in-out infinite}
+@keyframes blink{50%{opacity:.3}}
+.blooming .hint{opacity:0;animation:none}
+
+/* ===== MÀN HÌNH 2: lời chúc ===== */
+#s2{overflow-y:auto;display:flex;padding:30px 16px 74px}
+.card{position:relative;margin:auto;width:100%;max-width:520px;background:var(--paper);padding:30px 26px 28px;text-align:center;
+  border:1px solid var(--gold);outline:1px solid var(--gold);outline-offset:-9px;box-shadow:0 18px 40px rgba(78,48,27,.22)}
+.card::before,.card::after{position:absolute;font-family:'Playfair Display',serif;font-size:24px;color:var(--gold);background:var(--paper);padding:0 10px;left:50%;transform:translateX(-50%)}
+.card::before{content:'∞';top:-17px}.card::after{content:'π';bottom:-17px}
+#c2{width:112px;height:112px;display:block;margin:0 auto 6px}
+h2{font-family:'Dancing Script',cursive;font-weight:700;font-size:clamp(30px,8.4vw,42px);line-height:1.2;color:var(--earth)}
+.sub{margin-top:10px;font-family:'Playfair Display',serif;font-style:italic;font-size:14.5px;line-height:1.5;color:var(--bronze)}
+.eq{margin-top:14px;font-family:'Playfair Display',serif;font-size:17px;color:var(--earth);letter-spacing:.5px}
+.rule{height:1px;margin:18px auto;width:60%;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.card p.t{font-size:15.5px;line-height:1.9;margin-bottom:14px;text-align:left}
+.verse{font-family:'Playfair Display',serif;font-style:italic;font-size:16.5px;line-height:1.8;color:var(--earth);margin:20px 0}
+.sign{text-align:right;font-family:'Dancing Script',cursive;font-weight:700;font-size:30px;color:var(--earth);margin-top:10px}
+.btn{margin-top:22px;font-family:'Lora',serif;font-size:15px;color:var(--paper);background:linear-gradient(135deg,var(--bronze),var(--earth));
+  border:0;border-radius:30px;padding:11px 32px;cursor:pointer;box-shadow:0 6px 14px rgba(138,90,51,.4)}
+.btn:active{transform:scale(.96)}
+/* Từng dòng hiện lần lượt khi màn hình lời chúc mở */
+.ln{opacity:0;transform:translateY(10px)}
+#s2.on .ln{animation:in .9s ease forwards;animation-delay:calc(var(--i)*.5s + .4s)}
+@keyframes in{to{opacity:1;transform:none}}
+
+/* ===== Nút loa & footer ===== */
+#spk{position:fixed;top:max(14px,env(safe-area-inset-top));right:14px;z-index:40;width:44px;height:44px;border-radius:50%;border:1px solid var(--gold);
+  background:rgba(252,246,231,.9);font-size:20px;cursor:pointer;box-shadow:0 3px 10px rgba(78,48,27,.25)}
+.foot{position:fixed;left:50%;bottom:max(10px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:40;white-space:nowrap;
+  font-size:11px;letter-spacing:.6px;color:var(--bronze);text-decoration:none;font-weight:500;background:rgba(252,246,231,.92);padding:5px 14px;border-radius:20px;border:1px solid rgba(200,150,62,.5)}
+
+@media (prefers-reduced-motion:reduce){.hint{animation:none}}
+</style>
+</head>
+<body>
+
+<!-- Nhạc nền: đặt file music.mp3 cùng thư mục -->
+<audio id="bgm" src="music.mp3" loop preload="auto"></audio>
+<button id="spk" aria-label="Bật/tắt nhạc">🔇</button>
+
+<!-- MÀN HÌNH 1: đóa hoa nở theo góc vàng -->
+<section id="s1" class="screen">
+  <h1>Một đóa hoa của Toán học</h1>
+  <p class="lead">Mỗi hạt là một học trò. Cô xếp chúng con vào đúng chỗ, để cả đóa hoa cùng tỏa sáng.</p>
+  <canvas id="c1"></canvas>
+  <div class="formula">θ = 137,5° &nbsp;·&nbsp; n = <span id="cnt">55</span> hạt</div>
+  <div class="hint">chạm vào để hoa nở</div>
+</section>
+
+<!-- MÀN HÌNH 2: lời chúc -->
+<section id="s2" class="screen hide">
+  <div class="card">
+    <canvas id="c2"></canvas>
+    <h2 class="ln" style="--i:0">Tặng Cô My, chúc Cô 1 ngày lễ vui vẻ</h2>
+    <div class="sub ln" style="--i:1">Nhân ngày 20/10 – gửi người đã dạy con rằng bài toán khó nào cũng có lời giải</div>
+    <div class="eq ln" style="--i:2">Cô + Học trò = ∞</div>
+    <div class="rule ln" style="--i:2"></div>
+    <p class="t ln" style="--i:3">Trước khi gặp Cô, con từng nghĩ Toán chỉ là những con số khô khan. Cô đã cho con thấy sau mỗi phép tính là một vẻ đẹp rất riêng: ngay ngắn, sáng rõ và công bằng.</p>
+    <p class="t ln" style="--i:4">Có những bài con loay hoay mãi không ra, Cô không vội đưa đáp số. Cô kiên nhẫn gợi từng bước nhỏ để con tự tìm thấy lối đi. Con hiểu ra rằng, trong Toán cũng như trong đời, đường nào cũng có lời giải nếu mình đủ bình tĩnh và đủ kiên trì.</p>
+    <p class="t ln" style="--i:5">Với con, Cô là phép cộng của tận tâm và yêu thương, được nhân lên mỗi lần Cô tiếp sức cho học trò, và không bao giờ bị chia nhỏ đi, dù Cô đã cho đi biết bao nhiêu.</p>
+    <div class="verse ln" style="--i:6">“Có những điều không thể tính được,<br>như lòng biết ơn con dành cho Cô.”</div>
+    <p class="t ln" style="--i:7">Chúc Cô luôn khỏe, luôn tươi, mỗi ngày là một kết quả trọn vẹn và niềm vui của Cô cứ thế lũy thừa. Con cảm ơn Cô, thật nhiều.</p>
+    <div class="sign ln" style="--i:8">Học trò của Cô</div>
+    <button class="btn ln" style="--i:9" id="again">Xem lại</button>
+  </div>
+</section>
+
+<!-- Footer bắt buộc, bấm để gọi -->
+<a class="foot" href="tel:0339651811">DEV: LUONG TUAN ANH - 0339651811</a>
+
+<script>
+/* ===== Ký hiệu & từ ngữ toán học ===== */
+const SYM=['π','∑','√','∞','x²','∫','÷','×','+','=','∆','sin','%','φ','θ','e','½','≈','Cô','Tri ân'];
+const rnd=(a,b)=>a+Math.random()*(b-a);
+const pick=()=>SYM[Math.floor(Math.random()*SYM.length)];
+const $=id=>document.getElementById(id);
+const s1=$('s1'),s2=$('s2'),bgm=$('bgm'),spk=$('spk');
+let state='intro';   // intro | blooming | wish
+let musicOn=false;
+
+/* ===== Ký hiệu bay lên ở nền (tự động) ===== */
+function floatSym(){
+  const e=document.createElement('span');
+  e.className='fw';e.textContent=pick();
+  e.style.left=rnd(3,92)+'%';
+  e.style.fontSize=rnd(20,40)+'px';
+  e.style.setProperty('--d',rnd(8,13)+'s');
+  e.style.setProperty('--r',rnd(-14,14)+'deg');
+  document.body.appendChild(e);
+  e.addEventListener('animationend',()=>e.remove());
+}
+setInterval(()=>{if(!document.hidden)floatSym()},850);
+
+/* ===== Ký hiệu hiện lên tại chỗ chạm ===== */
+function tapSym(x,y){
+  const e=document.createElement('span');
+  e.className='tw';e.textContent=pick();
+  e.style.left=x+'px';e.style.top=y+'px';
+  e.style.fontSize=rnd(26,40)+'px';
+  document.body.appendChild(e);
+  e.addEventListener('animationend',()=>e.remove());
+}
+
+/* ===== Đóa hoa: hạt thứ i nằm ở bán kính k·√i, góc i·137,5° ===== */
+const GOLDEN=137.507764*Math.PI/180, NMAX=600, N0=55;
+let C1,C2;
+function fit(cv){            // chỉnh canvas sắc nét theo màn hình
+  const d=window.devicePixelRatio||1,s=cv.clientWidth||100;
+  cv.width=cv.height=Math.round(s*d);
+  return {ctx:cv.getContext('2d'),s,d};
+}
+function flower(c,n,rot){
+  const {ctx,s,d}=c;
+  ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,s,s);
+  const k=(s/2*0.94)/Math.sqrt(NMAX);
+  for(let i=1;i<=n;i++){
+    const r=k*Math.sqrt(i),a=i*GOLDEN+rot,t=i/NMAX;
+    ctx.fillStyle='rgb('+Math.round(105+t*120)+','+Math.round(66+t*108)+','+Math.round(34+t*34)+')';
+    ctx.beginPath();
+    ctx.arc(s/2+r*Math.cos(a),s/2+r*Math.sin(a),k*(0.5+0.45*Math.min(1,t*1.3)),0,7);
+    ctx.fill();
+  }
+}
+function resize(){C1=fit($('c1'));C2=fit($('c2'))}
+window.addEventListener('resize',resize);resize();
+
+let n=N0,rot=0,bloomAt=0;
+function frame(t){
+  rot+=bloomAt?0.012:0.003;
+  if(bloomAt){                                   // hoa nở: n tăng dần, chậm về cuối
+    const p=Math.min(1,(t-bloomAt)/3000);
+    n=Math.round(N0+(NMAX-N0)*(1-Math.pow(1-p,3)));
+  }else n=N0+Math.round(4*Math.sin(t/600));      // nụ hoa khẽ thở
+  if(state!=='wish'){flower(C1,n,rot);$('cnt').textContent=n}
+  else flower(C2,NMAX,rot*0.5);
+  requestAnimationFrame(frame);
+}
+requestAnimationFrame(frame);
+
+/* ===== Âm thanh ===== */
+function setMusic(on){
+  musicOn=on;spk.textContent=on?'🔊':'🔇';
+  if(on){bgm.volume=.7;bgm.play().catch(()=>{musicOn=false;spk.textContent='🔇'})}else bgm.pause();
+}
+spk.addEventListener('pointerdown',e=>{e.stopPropagation();setMusic(!musicOn);spk.dataset.u=1});
+
+/* ===== Chạm bất cứ đâu ===== */
+let firstTap=true;
+document.addEventListener('pointerdown',e=>{
+  if(e.target.closest('a,#spk'))return;          // không chặn nút loa & số điện thoại
+  if(firstTap&&!spk.dataset.u)setMusic(true);    // nhạc tự phát ở lần chạm đầu
+  firstTap=false;
+  tapSym(e.clientX,e.clientY);
+  if(state==='intro')startBloom();
+});
+
+/* ===== Hoa nở -> sang màn hình lời chúc ===== */
+function startBloom(){
+  state='blooming';
+  s1.classList.add('blooming');
+  bloomAt=performance.now();
+  for(let i=0;i<10;i++)setTimeout(floatSym,i*150);
+  setTimeout(()=>{
+    s1.classList.add('hide');
+    s2.classList.remove('hide');
+    s2.scrollTop=0;
+    void s2.offsetWidth;
+    s2.classList.add('on');
+    state='wish';
+  },3700);
+}
+
+/* ===== Nút "Xem lại": về đầu ===== */
+$('again').addEventListener('pointerdown',e=>{
+  e.stopPropagation();
+  s2.classList.remove('on');
+  s2.classList.add('hide');
+  s1.classList.remove('blooming');
+  bloomAt=0;n=N0;
+  void s1.offsetWidth;
+  s1.classList.remove('hide');
+  state='intro';
+});
+</script>
+</body>
+</html>
